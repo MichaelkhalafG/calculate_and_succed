@@ -38,19 +38,19 @@
             <div class="row justify-content-between mt-10 ">
                 <div class="col-md-4 col-12 rounded-5 mb-3 bg-color3" data-aos="fade-down" data-aos-duration="3000">
                     <div class="row m-3">
-                        <h5 class="col-2 m-0 text-light">f(x)</h5>
+                        <h4 class="col-2 m-0 text-light">f(x)</h4>
                         <div class="col-10 d-flex justify-content-center p-1 rounded-5 bg-dark">
                             <h6 class="text-light" id="fx"></h6>
                         </div>
                     </div>
                     <div class="row m-3">
-                        <h5 class="col-2 m-0 text-light">xl</h5>
+                        <h4 class="col-2 m-0 text-light">xi-1</h4>
                         <div class="col-10 d-flex justify-content-center p-1 rounded-5 bg-dark">
                             <h6 class="text-light" id="xl"></h6>
                         </div>
                     </div>
                     <div class="row m-3">
-                        <h5 class="col-2 m-0 text-light">xu</h5>
+                        <h4 class="col-2 m-0 text-light">x0</h4>
                         <div class="col-10 d-flex justify-content-center p-1 rounded-5 bg-dark">
                             <h6 class="text-light" id="xu"></h6>
                         </div>
@@ -67,14 +67,14 @@
                             <h6 class="text-light" id="N"></h6>
                         </div>
                     </div>
-                    <div class="row justify-content-around m-2 con-buttons">
+                    <div class="row justify-content-around m-3 con-buttons">
                         <button type="button" class="col-4 btn p-0 mt-1 btn-dark con_buttons" id="next">next
                             field</button>
                         <button type="button" class="col-3 btn p-0 mt-1 btn-dark con_buttons" id="NorE">E or N</button>
                         <button type="button" class="col-4 btn p-0 mt-1 btn-dark con_buttons" id="back">previous
                             field</button>
                         <button type="button" class="col-5 btn p-0 mt-2 btn-dark con_buttons"
-                            id="solv_bisection">solv</button>
+                            id="solv_secant">solv</button>
                         <button type="button" class="col-5 btn p-0 mt-2 btn-dark con_buttons" id="clear">clear</button>
                     </div>
                 </div>
@@ -84,13 +84,13 @@
                 </div>
                 <div class="col-md-2 col-4 rounded-5 mb-3 btn-group-vertical methods_buttons" role="group"
                     aria-label="Vertical button group" data-aos="fade-down" data-aos-duration="3000">
-                    <a href="#" type="button" class="btn btn-dark p-md-2 p-1 bg-color3">Bi Section Method</a>
+                    <a href="#" type="button" class="btn btn-dark p-md-2 p-1 bg-color3">Secant Method</a>
+                    <a href="index.html" type="button" class="btn btn-dark p-md-2 p-1 bg-color3">Bi Section Method</a>
                     <a href="False_Position.html" type="button" class="btn btn-dark p-md-2 p-1 bg-color3">False Position
                         Method</a>
                     <a href="simple_fixed_point.html" type="button" class="btn btn-dark p-md-2 p-1 bg-color3">Simple
                         Fixed Point</a>
                     <a href="newten_low.html" type="button" class="btn btn-dark p-md-2 p-1 bg-color3">Newten Method</a>
-                    <a href="secant.html" type="button" class="btn btn-dark p-md-2 p-1 bg-color3">Secant Method</a>
                     <a href="" type="button" class="btn btn-dark p-md-2 p-1 bg-color3">Button6</a>
                 </div>
                 <div class="output col-12 rounded-5 bg-color4 p-5 mt-2">
@@ -100,12 +100,10 @@
                         <thead>
                             <tr>
                                 <th scope="col">#</th>
-                                <th scope="col">xl</th>
-                                <th scope="col">f(xl)</th>
-                                <th scope="col">xu</th>
-                                <th scope="col">f(xu)</th>
-                                <th scope="col">xr</th>
-                                <th scope="col">f(xr)</th>
+                                <th scope="col">xi-1</th>
+                                <th scope="col">f(xi-1)</th>
+                                <th scope="col">xi</th>
+                                <th scope="col">f(xi)</th>
                                 <th scope="col">E</th>
                             </tr>
                         </thead>
@@ -125,7 +123,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjs/11.6.0/math.js"></script>
     <script src="https://code.jquery.com/jquery-3.6.3.js"
         integrity="sha256-nQLuAZGRRcILA+6dMBOvcRh5Pe310sBpanc6+QBmyVM=" crossorigin="anonymous"></script>
-    <script src="../assets/js/home.js"></script>
+    <script src="../assets/js/secant.js"></script>
 </body>
 
 </html>

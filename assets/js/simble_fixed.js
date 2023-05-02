@@ -307,23 +307,30 @@ $(document).ready(function () {
                 console.log(x0, fx, E);
                 let xi = x0;
                 let xiPlusOne;
-                let i = 1;
+                let i = 0;
+                Eb = 100;
                 do {
                     if (xi < 0) {
                         xiPlusOne = eval(fx.replaceAll("X", "(" + xi + ")"));
                     } else {
                         xiPlusOne = eval(fx.replaceAll("X", xi));
                     }
-                    Eb = Math.abs((xiPlusOne - xi) / xiPlusOne) * 100;
                     table_body.innerHTML += `<tr>
                                 <th scope="row">${i}</th>
                                 <td class="x0">${xi}</td>
                                 <td class="fx0">${xiPlusOne}</td>
                                 <td class="xl">${Eb}%</td>
                             </tr>`;
+                    Eb = Math.abs((xiPlusOne - xi) / xiPlusOne) * 100;
                     xi = xiPlusOne;
                     i++;
                 } while (Eb > E);
+                table_body.innerHTML += `<tr>
+                                <th scope="row">${i}</th>
+                                <td class="x0">${xi}</td>
+                                <td class="fx0">${xiPlusOne}</td>
+                                <td class="xl">${Eb}%</td>
+                            </tr>`;
                 root.innerHTML += `<h4 class="m-2">the root = ${xiPlusOne}</h4>`;
             }
         } else if (x0 == null || E == null) {
@@ -365,21 +372,17 @@ $(document).ready(function () {
             function newtonMethod(x0, fx, fpx, E) {
                 let xi = x0;
                 let i = 1;
-                let fxi;
-                let fpxi;
+                let fxi = fx;
+                let fpxi = fpx;
                 let xiPlusOne;
                 let Eb = 100;
                 while (Eb > E) {
                     if (xi < 0) {
-                        console.log(fx);
-                        fxi = eval(fx.replaceAll("X", "(" + xi + ")"));
-                        fpxi = eval(fpx.replaceAll("X", "(" + xi + ")"));
+                        fxi = eval(fxi.replaceAll("X", "(" + xi + ")"));
+                        fpxi = eval(fpxi.replaceAll("X", "(" + xi + ")"));
                     } else {
-                        console.log(fx);
-                        console.log(fx.replaceAll("X", xi));
-                        console.log(fpx.replaceAll("X", xi));
-                        fxi = eval(fx.replaceAll("X", xi));
-                        fpxi = eval(fpx.replaceAll("X", xi));
+                        fxi = eval(fxi.replaceAll("X", xi));
+                        fpxi = eval(fpxi.replaceAll("X", xi));
                     }
                     table_body.innerHTML += `<tr>
                                 <th scope="row">${i}</th>
@@ -433,4 +436,43 @@ $(document).ready(function () {
         console.log(result);
         return result;
     }
+    // function decimalPlaces(number) {
+    //     var numberOfPlaces = 0;
+    //     var foundFirstZero = false;
+    //     var foundDot = false;
+
+    //     for (var i = 0; i < number.toString().length; i++) {
+    //         if (number.toString()[i] == "0" && !foundFirstZero) {
+    //             foundFirstZero = true;
+    //         } else if (number.toString()[i] == ".") {
+    //             foundDot = true;
+    //         } else if (number.toString()[i].match(/\d+/g) != null && foundDot) {
+    //             numberOfPlaces++;
+    //         }
+    //     }
+
+    //     return numberOfPlaces;
+    // }
+
+    // function simplify(numerator, denominator) {
+    //     var fraction = {
+    //         numerator: numerator,
+    //         denominator: denominator
+    //     };
+
+    //     for (var i = fraction.denominator; i > 0; i--) {
+    //         if (fraction.denominator % i == 0 && fraction.numerator % i == 0) {
+    //             fraction.numerator /= i;
+    //             fraction.denominator /= i;
+    //         }
+    //     }
+
+    //     return fraction;
+    // }
+
+    // function changeAnswer(ds) {
+    //     let decimal = ds;
+    //     var ans = simplify(decimal.toString().substring(2), Math.pow(10, decimalPlaces(decimal)));
+    //     return (ans.numerator + '/' + ans.denominator);
+    // }
 });

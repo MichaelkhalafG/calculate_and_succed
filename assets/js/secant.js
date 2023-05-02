@@ -174,10 +174,9 @@ $(document).ready(function () {
     let fx = "";
     let xl;
     let xu;
-    let xr;
-    let xrold = 0;
     let E = 0;
     let N;
+    let contaner_to_xu = 0;
     let counter = 1;
     let EorN = true;
     let values = [];
@@ -351,7 +350,6 @@ $(document).ready(function () {
     let error = [];
     let fxl = 0;
     let fxu = 0;
-    let fxr = 0;
     let Eb = 100;
     let EorNcon;
     $("#NorE").click(function () {
@@ -364,7 +362,7 @@ $(document).ready(function () {
             $("#Ndiv").removeClass("d-none");
         }
     });
-    $("#solv_bisection").click(function () {
+    $("#solv_secant").click(function () {
         table_body.innerHTML = ``;
         root.innerHTML = ``;
         if (EorN) {
@@ -381,8 +379,6 @@ $(document).ready(function () {
                 } else {
                     N = eval(N);
                 }
-                xr = (xl + xu) / 2;
-                Eb = math.abs(((xr - xrold) / xr) * 100);
                 if (fx.startsWith("*(")) {
                     fx = fx.replace("*(", "(").replaceAll("+*X", "+X").replaceAll("-*X", "-X").replaceAll("**X", "*X").replaceAll("/*X", "/X").replaceAll("(*X", "(X");
                 } else if (fx.startsWith("*X")) {
@@ -400,20 +396,14 @@ $(document).ready(function () {
                 } else {
                     fxu = eval(fx.replaceAll("X", xu));
                 }
-                if (xr < 0) {
-                    fxr = eval(fx.replaceAll("X", "(" + xr + ")"));
-                } else {
-                    fxr = eval(fx.replaceAll("X", xr));
-                }
-                if (fxl * fxu < 0 || row_num >= 1) {
+                Eb = math.abs(((xu - xl) / xu) * 100);
+                if (row_num >= 0) {
                     values.push(
                         {
                             "xl": xl,
                             "f(xl)": fxl,
                             "xu": xu,
                             "f(xu)": fxu,
-                            "xr": xr,
-                            "f(xr)": fxr,
                             "E%": Eb
                         })
                         ;
@@ -423,158 +413,26 @@ $(document).ready(function () {
                                 <td class="fxl">${fxl}</td>
                                 <td class="xu">${xu}</td>
                                 <td class="fxu">${fxu}</td>
-                                <td class="xr">${xr}</td>
-                                <td class="fxr">${fxr}</td>
                                 <td class="xl">${Eb}%</td>
                             </tr>`;
-                    if (fxl * fxr < 0) {
-                        xu = xr;
-                        xl = xl;
-                    } else {
-                        xl = xr;
-                        xu = xu;
-                    }
+                    contaner_to_xu = xu;
+                    xu = xu - ((fxu * (xl - xu)) / (fxl - fxu));
+                    xl = contaner_to_xu;
                     row_num++;
-                    xrold = xr;
                 } else {
                     error.push(". There is no solution to this equation");
                     break;
                 }
                 if (row_num - 1 == N) {
-                    root.innerHTML += `<h4 class="m-2">the root = ${xr}</h4>`
+                    root.innerHTML += `<h4 class="m-2">the root = ${fxu}</h4>`
                     break;
                 }
             } while (E <= Eb);
             if (E >= Eb) {
-                root.innerHTML += `<h4 class="m-2">the root = ${xr}</h4>`
+                root.innerHTML += `<h4 class="m-2">the root = ${fxu}</h4>`
             }
             row_num = 0;
             Eb = 100;
-            xrold = 0;
-            xl = eval(xla.fourmla.join(""));
-            xu = eval(xua.fourmla.join(""));
-            if (EorN) {
-                E = eval(Ea.fourmla.join(""));
-            } else {
-                N = eval(Na.fourmla.join(""));
-            }
-        } else if (xl == null || xu == null || E == null || N == null) {
-            if (xl == null) {
-                error.push(". Enter a valed value in xl field");
-            };
-            if (xu == null) {
-                error.push(". Enter a valed value in xu field");
-            };
-            if (E == null || N == null) {
-                if (EorN) {
-                    error.push(". Enter a valed value in E field");
-                } else {
-                    error.push(". Enter a valed value in N field");
-                }
-            };
-            if (!fx.includes("X")) {
-                error.push(". The f(x) must have ' x ' on it !!");
-            }
-        } else if (xl >= xu) {
-            error.push(". xl => must be the lower value , xu => must be the uper value");
-            error.push(". Enter a new xl , xu");
-        } else {
-            error.push(". The f(x) must have ' x ' on it !!");
-        };
-        if (error.length > 0) {
-            document.querySelector("#erorr").innerHTML = `<h5 class="text-danger border rounded-2 border-danger m-1 p-2 bg-danger-subtle">${error.join("<br>")}</h5>`;
-            error = [];
-        } else if (error.length == 0) {
-            document.querySelector("#erorr").innerHTML = ` `;
-        }
-    });
-    $("#solv_false_position").click(function () {
-        table_body.innerHTML = ``;
-        root.innerHTML = ``;
-        if (EorN) {
-            EorNcon = E;
-        } else {
-            EorNcon = N;
-        }
-        if (fx.includes("X") && xl != null && xu != null && EorNcon != null && xl < xu) {
-            do {
-                xl = eval(xl);
-                xu = eval(xu);
-                if (EorN) {
-                    E = eval(E);
-                } else {
-                    N = eval(N);
-                }
-                if (fx.startsWith("*(")) {
-                    fx = fx.replace("*(", "(").replaceAll("+*X", "+X").replaceAll("-*X", "-X").replaceAll("**X", "*X").replaceAll("/*X", "/X").replaceAll("(*X", "(X");
-                } else if (fx.startsWith("*X")) {
-                    fx = fx.replace("*X", "X").replaceAll("+*X", "+X").replaceAll("-*X", "-X").replaceAll("**X", "*X").replaceAll("/*X", "/X").replaceAll("(*X", "(X");
-                } else {
-                    fx = fx.replaceAll("+*X", "+X").replaceAll("-*X", "-X").replaceAll("**X", "*X").replaceAll("/*X", "/X").replaceAll("(*X", "(X");
-                };
-                if (xl < 0) {
-                    fxl = eval(fx.replaceAll("X", "(" + xl + ")"));
-                } else {
-                    fxl = eval(fx.replaceAll("X", xl));
-                }
-                if (xu < 0) {
-                    fxu = eval(fx.replaceAll("X", "(" + xu + ")"));
-                } else {
-                    fxu = eval(fx.replaceAll("X", xu));
-                }
-                xr = xu - ((fxu * (xl - xu)) / (fxl - fxu));
-                Eb = math.abs(((xr - xrold) / xr) * 100);
-                if (xr < 0) {
-                    fxr = eval(fx.replaceAll("X", "(" + xr + ")"));
-                } else {
-                    fxr = eval(fx.replaceAll("X", xr));
-                }
-                if (fxl * fxu < 0 || row_num >= 1) {
-                    values.push(
-                        {
-                            "xl": xl,
-                            "f(xl)": fxl,
-                            "xu": xu,
-                            "f(xu)": fxu,
-                            "xr": xr,
-                            "f(xr)": fxr,
-                            "E%": Eb
-                        })
-                        ;
-                    table_body.innerHTML += `<tr>
-                                <th scope="row">${row_num}</th>
-                                <td class="xl">${xl}</td>
-                                <td class="fxl">${fxl}</td>
-                                <td class="xu">${xu}</td>
-                                <td class="fxu">${fxu}</td>
-                                <td class="xr">${xr}</td>
-                                <td class="fxr">${fxr}</td>
-                                <td class="xl">${Eb}%</td>
-                            </tr>`;
-                    if (fxl * fxr < 0) {
-                        xu = xr;
-                        xl = xl;
-                    } else {
-                        xl = xr;
-                        xu = xu;
-                    }
-                    row_num++;
-                    xrold = xr;
-                } else {
-                    error.push(". There is no solution to this equation");
-                    break;
-                }
-                if (row_num - 1 == N) {
-                    root.innerHTML += `<h4 class="m-2">the root = ${xr}</h4>`
-                    break;
-                }
-            } while (E <= Eb);
-            if (E >= Eb) {
-                root.innerHTML += `<h4 class="m-2">the root = ${xr}</h4>`
-            }
-            row_num = 1;
-            Eb = 100;
-            xrold = 0;
             xl = eval(xla.fourmla.join(""));
             xu = eval(xua.fourmla.join(""));
             if (EorN) {
