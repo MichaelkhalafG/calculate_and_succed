@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>numerical project</title>
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
+    <link rel="stylesheet" href="../assets/cs/home.css">
+</head>
+
+<body class="bg-color2">
+    <header>
+        <nav class="navbar">
+            <div class="container-fluid">
+                <a class="navbar-brand" href="">
+                    <img src="../assets/media/img/png/logo.png" alt="Logo" width="50" class="p-md-1 p-0 m-md-2 m-0">
+                    <h2 class="text-light me-md-5 me-1 mt-2 d-inline-block">Calculate <span class="name-span">and</span>
+                        succeed
+                    </h2>
+                </a>
+            </div>
+        </nav>
+    </header>
+    <section class="background-video" data-aos="zoom-in">
+        <video autoplay muted loop class="bg1">
+            <source src="../assets/media/video/video1.mp4">
+        </video>
+        <video autoplay muted loop class="bg2">
+            <source src="../assets/media/video/video2.mp4">
+        </video>
+    </section>
+    <section class="body-of-calc ">
+        <div class="container-fluid">
+            <div class="row justify-content-between mt-10 ">
+                <div class="col-md-4 col-12 rounded-5 mb-3 bg-color3" data-aos="fade-down" data-aos-duration="3000">
+                    <div class="row m-3">
+                        <h5 class="col-2 m-0 text-light">f(x)</h5>
+                        <div class="col-10 d-flex justify-content-center p-1 rounded-5 bg-dark">
+                            <h6 class="text-light" id="fx"></h6>
+                        </div>
+                    </div>
+                    <div class="row m-3">
+                        <h5 class="col-2 m-0 text-light">xl</h5>
+                        <div class="col-10 d-flex justify-content-center p-1 rounded-5 bg-dark">
+                            <h6 class="text-light" id="xl"></h6>
+                        </div>
+                    </div>
+                    <div class="row m-3">
+                        <h5 class="col-2 m-0 text-light">xu</h5>
+                        <div class="col-10 d-flex justify-content-center p-1 rounded-5 bg-dark">
+                            <h6 class="text-light" id="xu"></h6>
+                        </div>
+                    </div>
+                    <div class="row m-3" id="Ediv">
+                        <h5 class="col-2 m-0 text-light">E</h5>
+                        <div class="col-10 d-flex justify-content-center p-1 rounded-5 bg-dark">
+                            <h6 class="text-light" id="E"></h6>
+                        </div>
+                    </div>
+                    <div class="row m-3" id="Ndiv">
+                        <h5 class="col-2 m-0 text-light">N</h5>
+                        <div class="col-10 d-flex justify-content-center p-1 rounded-5 bg-dark ">
+                            <h6 class="text-light" id="N"></h6>
+                        </div>
+                    </div>
+                    <div class="row justify-content-around m-2 con-buttons">
+                        <button type="button" class="col-4 btn p-0 mt-1 btn-dark con_buttons" id="next">next
+                            field</button>
+                        <button type="button" class="col-3 btn p-0 mt-1 btn-dark con_buttons" id="NorE">E or N</button>
+                        <button type="button" class="col-4 btn p-0 mt-1 btn-dark con_buttons" id="back">previous
+                            field</button>
+                        <button type="button" class="col-5 btn p-0 mt-2 btn-dark con_buttons"
+                            id="solv_bisection">solv</button>
+                        <button type="button" class="col-5 btn p-0 mt-2 btn-dark con_buttons" id="clear">clear</button>
+                    </div>
+                </div>
+                <div class="col-md-5 col-8 mb-3" data-aos="fade-down" data-aos-duration="3000">
+                    <div class="rounded-5 row justify-content-center input_buttons">
+                    </div>
+                </div>
+                <div class="col-md-2 col-4 rounded-5 mb-3 btn-group-vertical methods_buttons" role="group"
+                    aria-label="Vertical button group" data-aos="fade-down" data-aos-duration="3000">
+                    <a href="#" type="button" class="btn btn-dark p-md-2 p-1 bg-color3">Bi Section Method</a>
+                    <a href="False_Position.html" type="button" class="btn btn-dark p-md-2 p-1 bg-color3">False Position
+                        Method</a>
+                    <a href="simple_fixed_point.html" type="button" class="btn btn-dark p-md-2 p-1 bg-color3">Simple
+                        Fixed Point</a>
+                    <a href="newten_low.html" type="button" class="btn btn-dark p-md-2 p-1 bg-color3">Newten Method</a>
+                    <a href="" type="button" class="btn btn-dark p-md-2 p-1 bg-color3">Button5</a>
+                    <a href="" type="button" class="btn btn-dark p-md-2 p-1 bg-color3">Button6</a>
+                </div>
+                <div class="output col-12 rounded-5 bg-color4 p-5 mt-2">
+                    <div id="erorr">
+                    </div>
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th scope="col">#</th>
+                                <th scope="col">xl</th>
+                                <th scope="col">f(xl)</th>
+                                <th scope="col">xu</th>
+                                <th scope="col">f(xu)</th>
+                                <th scope="col">xr</th>
+                                <th scope="col">f(xr)</th>
+                                <th scope="col">E</th>
+                            </tr>
+                        </thead>
+                        <tbody class="table_body">
+                        </tbody>
+                    </table>
+                    <div class="root">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN"
+        crossorigin="anonymous"></script>
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjs/11.6.0/math.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.3.js"
+        integrity="sha256-nQLuAZGRRcILA+6dMBOvcRh5Pe310sBpanc6+QBmyVM=" crossorigin="anonymous"></script>
+    <script src="../assets/js/home.js"></script>
+</body>
+
+</html>

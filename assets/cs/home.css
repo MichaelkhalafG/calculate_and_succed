@@ -1,0 +1,110 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
+
+.background-video {
+    overflow: hidden;
+    width: 100%;
+    height: 100%;
+    position: fixed;
+    top: 0;
+    opacity: 0.9;
+    z-index: 1;
+}
+
+video {
+    width: 100vw;
+}
+
+.bg1 {
+    display: block !important;
+}
+
+.bg2 {
+    display: none !important;
+}
+
+.mt-10 {
+    margin-top: 100px;
+}
+
+@media only screen and (max-width: 870px) {
+    .bg1 {
+        display: none !important;
+    }
+
+    .bg2 {
+        display: block !important;
+    }
+
+    .mt-10 {
+        margin-top: 50px;
+    }
+
+    .body-of-calc {
+        margin-top: 50px !important;
+    }
+
+    button {
+        font-size: small !important;
+    }
+
+    h5 {
+        font-size: medium;
+    }
+
+    .output {
+        padding: 20px 0 !important;
+        overflow-x: scroll;
+    }
+
+    .methods_buttons a {
+        font-size: xx-small;
+    }
+}
+
+.body-of-calc {
+    position: absolute;
+    width: 95vw;
+    margin: 0 2.5vw;
+    top: 0;
+    z-index: 10;
+}
+
+header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw !important;
+    z-index: 11;
+}
+
+nav {
+    background-color: rgba(0, 0, 0, 0.3) !important;
+}
+
+.name-span {
+    font-size: large;
+}
+
+.bg-color1 {
+    background-color: #89B3D9;
+}
+
+.bg-color2 {
+    background-color: #03178C;
+}
+
+.bg-color3 {
+    background-color: #034AA6;
+}
+
+.bg-color4 {
+    background-color: #F2F2F2;
+}
+
+.con-buttons {
+    font-size: medium !important;
+}
