@@ -108,3 +108,26 @@ nav {
 .con-buttons {
     font-size: medium !important;
 }
+
+#table_body {
+    width: 100%;
+}
+
+.gauss-table {
+    width: 80%;
+    border-collapse: collapse;
+    margin: 20px;
+
+}
+
+.gauss-row {
+    border-right: 1px solid black;
+    border-left: 1px solid black;
+}
+
+.gauss-cell,
+.gauss-constant {
+    padding: 10px;
+    font-size: larger;
+    text-align: center;
+}
