@@ -13,6 +13,8 @@ $(document).ready(function () {
     const e3x2 = document.getElementById('e3x2');
     const e3x3 = document.getElementById('e3x3');
     const e3a = document.getElementById('e3a');
+    let error = [];
+    let naninputs = 0;
 
     $('#solv').click(function () {
         document.getElementById('table_body').innerHTML = ``;
@@ -21,9 +23,30 @@ $(document).ready(function () {
         let e3 = [parseFloat(e3x1.value), parseFloat(e3x2.value), parseFloat(e3x3.value)];
         let a = [parseFloat(e1a.value), parseFloat(e2a.value), parseFloat(e3a.value)];
         let matrix = [e1, e2, e3];
-
-        let { x, steps } = gaussGordon(matrix, a, 'table_body');
-        document.querySelector('.table_head').innerHTML = `
+        error = [];
+        naninputs = 0;
+        matrix.forEach((element) => {
+            element.forEach((element2) => {
+                if (isNaN(element2)) {
+                    naninputs++;
+                }
+            });
+        });
+        a.forEach((element) => {
+            if (isNaN(element)) {
+                naninputs++;
+            }
+        });
+        if (naninputs > 0) {
+            error.push(`Invalid ${naninputs} inputs. All inputs should be numbers.`);
+        }
+        if (error.length > 0) {
+            document.querySelector("#erorr").innerHTML = `<h5 class="text-danger border rounded-2 border-danger m-1 p-2 bg-danger-subtle">${error.join("<br>")}</h5>`;
+            document.querySelector('.table_head').innerHTML = ``;
+        } else {
+            document.querySelector("#erorr").innerHTML = ``;
+            let { x, steps } = gaussGordon(matrix, a, 'table_body');
+            document.querySelector('.table_head').innerHTML = `
         <tr>
             <h6 class="px-5 py-2">Solution:</h6>
         </tr>
@@ -37,6 +60,10 @@ $(document).ready(function () {
             <h6 class="px-5 py-2">x3 = ${x[2]}</h6>
         </tr>
         `;
+
+        };
+        error = [];
+        naninputs = 0;
     });
 
     function gaussGordon(A, b, outputDiv) {

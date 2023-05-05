@@ -25,7 +25,7 @@
             </div>
         </nav>
     </header>
-    <section class="background-video" data-aos="zoom-in">
+    <section class="background-video m-0" data-aos="zoom-in">
         <video autoplay muted loop class="bg1">
             <source src="../assets/media/video/video1.mp4">
         </video>
@@ -114,8 +114,7 @@
                     </div>
                     <div class="col-12 rounded-5 mb-3 btn-group-vertical methods_buttons" role="group"
                         aria-label="Vertical button group">
-                        <a href="#" type="button" class="btn btn-dark p-md-2 p-1 bg-color3">Gauss
-                            Gordon Method</a>
+                        <a href="#" type="button" class="btn btn-dark p-md-2 p-1 bg-color3">Cramer`s Low</a>
                         <a href="index.html" type="button" class="btn btn-dark p-md-2 p-1 bg-color3">Bi Section
                             Method</a>
                         <a href="False_Position.html" type="button" class="btn btn-dark p-md-2 p-1 bg-color3">False
@@ -126,19 +125,13 @@
                         <a href="newten_low.html" type="button" class="btn btn-dark p-md-2 p-1 bg-color3">Newten
                             Method</a>
                         <a href="secant.html" type="button" class="btn btn-dark p-md-2 p-1 bg-color3">Secant Method</a>
-                        <a href="cramer_low.html" type="button" class="btn btn-dark p-md-2 p-1 bg-color3">Cramer`s
-                            Low</a>
+                        <a href="gauss_gordon.html" type="button" class="btn btn-dark p-md-2 p-1 bg-color3">Gauss
+                            Gordon Method</a>
                     </div>
                 </div>
-                <div class="output col-md-7 col-12 rounded-5 bg-color4 p-5">
-                    <div id="erorr">
-                    </div>
-                    <table class="table">
-                        <thead class="table_head">
-                        </thead>
-                    </table>
-                    <div class="row col-12 p-5 pt-1 d-flex justify-content-center" id="table_body">
-                        <h5 class="border-bottom border-2 border-dark m-0 p-2">Solution :</h5>
+                <div class="output row col-md-7 rounded-5 bg-color4 p-5" id="table">
+                    <div class="p-5 pt-1" id="table_body">
+                        <h5 class="col-12 border-bottom border-2 border-dark m-0 p-2">Solution :</h5>
                     </div>
                 </div>
             </div>
@@ -151,7 +144,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjs/11.6.0/math.js"></script>
     <script src="https://code.jquery.com/jquery-3.6.3.js"
         integrity="sha256-nQLuAZGRRcILA+6dMBOvcRh5Pe310sBpanc6+QBmyVM=" crossorigin="anonymous"></script>
-    <script src="../assets/js/gauss_gordon.js"></script>
+    <script src="../assets/js/cramer_low.js"></script>
 </body>
 
 </html>
