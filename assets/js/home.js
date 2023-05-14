@@ -179,6 +179,12 @@ $(document).ready(function () {
     let E = 0;
     let N;
     let counter = 1;
+    if (counter == 1) {
+        $('#pin4').addClass('d-none');
+        $('#pin5').addClass('d-none');
+        $('#pin3').addClass('d-none');
+        $('#pin2').addClass('d-none');
+    }
     let EorN = true;
     let values = [];
     let fxa = {
@@ -298,6 +304,31 @@ $(document).ready(function () {
     let table_body = document.querySelector(".table_body");
     let root = document.querySelector(".root");
     $("#next").click(function () {
+        if (counter == 1) {
+            $('#pin2').removeClass('d-none');
+            $('#pin1').addClass('d-none');
+            $('#pin3').addClass('d-none');
+            $('#pin4').addClass('d-none');
+            $('#pin5').addClass('d-none');
+        } else if (counter == 2) {
+            $('#pin3').removeClass('d-none');
+            $('#pin2').addClass('d-none');
+            $('#pin1').addClass('d-none');
+            $('#pin4').addClass('d-none');
+            $('#pin5').addClass('d-none');
+        } else if (counter == 3) {
+            $('#pin4').removeClass('d-none');
+            $('#pin5').removeClass('d-none');
+            $('#pin3').addClass('d-none');
+            $('#pin2').addClass('d-none');
+            $('#pin1').addClass('d-none');
+        } else if (counter == 4) {
+            $('#pin1').removeClass('d-none');
+            $('#pin4').addClass('d-none');
+            $('#pin5').addClass('d-none');
+            $('#pin3').addClass('d-none');
+            $('#pin2').addClass('d-none');
+        }
         if (counter == 4) {
             counter = 1;
         } else { counter++; }
@@ -341,8 +372,38 @@ $(document).ready(function () {
         table_body.innerHTML = ``;
         root.innerHTML = ``;
         counter = 1;
+        $('#pin1').removeClass('d-none');
+        $('#pin4').addClass('d-none');
+        $('#pin5').addClass('d-none');
+        $('#pin3').addClass('d-none');
+        $('#pin2').addClass('d-none');
     });
     $("#back").click(function () {
+        if (counter == 1) {
+            $('#pin4').removeClass('d-none');
+            $('#pin5').removeClass('d-none');
+            $('#pin1').addClass('d-none');
+            $('#pin3').addClass('d-none');
+            $('#pin2').addClass('d-none');
+        } else if (counter == 2) {
+            $('#pin1').removeClass('d-none');
+            $('#pin2').addClass('d-none');
+            $('#pin3').addClass('d-none');
+            $('#pin4').addClass('d-none');
+            $('#pin5').addClass('d-none');
+        } else if (counter == 3) {
+            $('#pin2').removeClass('d-none');
+            $('#pin3').addClass('d-none');
+            $('#pin4').addClass('d-none');
+            $('#pin5').addClass('d-none');
+            $('#pin1').addClass('d-none');
+        } else if (counter == 4) {
+            $('#pin3').removeClass('d-none');
+            $('#pin4').addClass('d-none');
+            $('#pin5').addClass('d-none');
+            $('#pin1').addClass('d-none');
+            $('#pin2').addClass('d-none');
+        }
         if (counter == 1) {
             counter = 4;
         } else { counter--; }
@@ -474,11 +535,14 @@ $(document).ready(function () {
             };
             if (!fx.includes("X")) {
                 error.push(". The f(x) must have ' x ' on it !!");
-            }
+            };
         } else if (xl >= xu) {
             error.push(". xl => must be the lower value , xu => must be the uper value");
             error.push(". Enter a new xl , xu");
-        } else {
+            if (!fx.includes("X")) {
+                error.push(". The f(x) must have ' x ' on it !!");
+            };
+        } else if (!fx.includes("X")) {
             error.push(". The f(x) must have ' x ' on it !!");
         };
         if (error.length > 0) {

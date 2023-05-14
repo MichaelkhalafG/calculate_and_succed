@@ -30,15 +30,16 @@ video {
     margin-top: 100px;
 }
 
-@media only screen and (max-width: 870px) {
+@media only screen and (max-width: 1140px) {
     .bg1 {
-        display: none !important;
-    }
+            display: none !important;
+        }
+        .bg2 {
+            display: block !important;
+        }
+}
 
-    .bg2 {
-        display: block !important;
-    }
-
+@media only screen and (max-width: 870px) {
     .mt-10 {
         margin-top: 50px;
     }

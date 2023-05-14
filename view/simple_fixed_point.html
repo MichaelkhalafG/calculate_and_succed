@@ -40,25 +40,36 @@
                     <div class="row m-4">
                         <h4 class="col-2 m-0 text-light">X = </h4>
                         <div class="col-10 d-flex justify-content-center p-1 rounded-5 bg-dark">
-                            <h6 class="text-light" id="fx"></h6>
+                            <h6 class="text-light text-center col-11" id="fx"></h6><img src="../assets/media/img/png/pin_icon.png" alt="pin"
+                                class="col-1" id="pin1">
                         </div>
                     </div>
                     <div class="row m-4">
                         <h4 class="col-2 m-0 text-light">X0</h4>
                         <div class="col-10 d-flex justify-content-center p-1 rounded-5 bg-dark">
-                            <h6 class="text-light" id="x0"></h6>
+                            <h6 class="text-light text-center col-11" id="x0"></h6><img src="../assets/media/img/png/pin_icon.png" alt="pin"
+                                class="col-1" id="pin2">
                         </div>
                     </div>
-                    <div class="row m-4">
-                        <h4 class="col-2 m-0 text-light">E</h4>
+                    <div class="row m-4" id="Ediv">
+                        <h5 class="col-2 m-0 text-light">E</h5>
                         <div class="col-10 d-flex justify-content-center p-1 rounded-5 bg-dark">
-                            <h6 class="text-light" id="E"></h6>
+                            <h6 class="text-light text-center col-11" id="E"></h6><img src="../assets/media/img/png/pin_icon.png" alt="pin"
+                                class="col-1" id="pin3">
+                        </div>
+                    </div>
+                    <div class="row m-4 d-none" id="Ndiv">
+                        <h5 class="col-2 m-0 text-light">N</h5>
+                        <div class="col-10 d-flex justify-content-center p-1 rounded-5 bg-dark ">
+                            <h6 class="text-light text-center col-11" id="N"></h6><img src="../assets/media/img/png/pin_icon.png" alt="pin"
+                                class="col-1" id="pin4">
                         </div>
                     </div>
                     <div class="row justify-content-around m-4 con-buttons">
-                        <button type="button" class="col-5 btn p-0 mt-1 btn-dark con_buttons" id="next">next
+                        <button type="button" class="col-4 btn p-0 mt-1 btn-dark con_buttons" id="next">next
                             field</button>
-                        <button type="button" class="col-5 btn p-0 mt-1 btn-dark con_buttons" id="back">previous
+                        <button type="button" class="col-3 btn p-0 mt-1 btn-dark con_buttons" id="NorE">E or N</button>
+                        <button type="button" class="col-4 btn p-0 mt-1 btn-dark con_buttons" id="back">previous
                             field</button>
                         <button type="button" class="col-5 btn p-0 mt-3 btn-dark con_buttons"
                             id="solv_simple_fixed">solv</button>
@@ -71,15 +82,14 @@
                 </div>
                 <div class="col-md-2 col-4 rounded-5 mb-3 btn-group-vertical methods_buttons" role="group"
                     aria-label="Vertical button group" data-aos="fade-down" data-aos-duration="3000">
-                    <a href="#" type="button" class="btn btn-dark p-md-2 p-1 bg-color3">Simple
-                        Fixed Point</a>
                     <a href="index.html" type="button" class="btn btn-dark p-md-2 p-1 bg-color3">Bi Section Method</a>
                     <a href="False_Position.html" type="button" class="btn btn-dark p-md-2 p-1 bg-color3">False Position
                         Method</a>
+                    <a href="#" type="button" class="btn btn-dark p-md-2 p-1 bg-dark">Simple Fixed Point</a>
                     <a href="newten_low.html" type="button" class="btn btn-dark p-md-2 p-1 bg-color3">Newten Method</a>
                     <a href="secant.html" type="button" class="btn btn-dark p-md-2 p-1 bg-color3">Secant Method</a>
                     <a href="../view/gauss_gordon.html" type="button" class="btn btn-dark p-md-2 p-1 bg-color3">Gauss
-                        Gordon Method</a>
+                    elimination Method</a>
                     <a href="cramer_low.html" type="button" class="btn btn-dark p-md-2 p-1 bg-color3">Cramer`s
                         Low</a>
                 </div>

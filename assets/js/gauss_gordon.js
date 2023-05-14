@@ -15,6 +15,34 @@ $(document).ready(function () {
     const e3a = document.getElementById('e3a');
     let error = [];
     let naninputs = 0;
+    let type = 1;
+    $('#type1').click(function () {
+        type = 1;
+        $('#type1').addClass('bg-dark');
+        $('#type1').removeClass('bg-color3');
+        $('#type2').addClass('bg-color3');
+        $('#type2').removeClass('bg-dark');
+        $('#type3').addClass('bg-color3');
+        $('#type3').removeClass('bg-dark');
+    });
+    $('#type2').click(function () {
+        type = 2;
+        $('#type2').addClass('bg-dark');
+        $('#type2').removeClass('bg-color3');
+        $('#type1').addClass('bg-color3');
+        $('#type1').removeClass('bg-dark');
+        $('#type3').addClass('bg-color3');
+        $('#type3').removeClass('bg-dark');
+    });
+    $('#type3').click(function () {
+        type = 3;
+        $('#type3').addClass('bg-dark');
+        $('#type3').removeClass('bg-color3');
+        $('#type2').addClass('bg-color3');
+        $('#type2').removeClass('bg-dark');
+        $('#type1').addClass('bg-color3');
+        $('#type1').removeClass('bg-dark');
+    });
 
     $('#solv').click(function () {
         document.getElementById('table_body').innerHTML = ``;
@@ -45,8 +73,9 @@ $(document).ready(function () {
             document.querySelector('.table_head').innerHTML = ``;
         } else {
             document.querySelector("#erorr").innerHTML = ``;
-            let { x, steps } = gaussGordon(matrix, a, 'table_body');
-            document.querySelector('.table_head').innerHTML = `
+            if (type == 1) {
+                let { x, steps } = gaussGordon(matrix, a, 'table_body');
+                document.querySelector('.table_head').innerHTML = `
         <tr>
             <h6 class="px-5 py-2">Solution:</h6>
         </tr>
@@ -60,6 +89,39 @@ $(document).ready(function () {
             <h6 class="px-5 py-2">x3 = ${x[2]}</h6>
         </tr>
         `;
+            } else if (type == 2) {
+                let { x, steps } = gauss_with_partial_pivoting(matrix, a, 'table_body');
+                document.querySelector('.table_head').innerHTML = `
+        <tr>
+            <h6 class="px-5 py-2">Solution:</h6>
+        </tr>
+        <tr>
+            <h6 class="px-5 py-2">x1 = ${x[0]}</h6>
+        </tr>
+        <tr>
+            <h6 class="px-5 py-2">x2 = ${x[1]}</h6>
+        </tr>
+        <tr>
+            <h6 class="px-5 py-2">x3 = ${x[2]}</h6>
+        </tr>
+        `;
+            } else {
+                let { x, steps } = luDecomposition(matrix, a, 'table_body');
+                document.querySelector('.table_head').innerHTML = `
+        <tr>
+            <h6 class="px-5 py-2">Solution:</h6>
+        </tr>
+        <tr>
+            <h6 class="px-5 py-2">x1 = ${x[0]}</h6>
+        </tr>
+        <tr>
+            <h6 class="px-5 py-2">x2 = ${x[1]}</h6>
+        </tr>
+        <tr>
+            <h6 class="px-5 py-2">x3 = ${x[2]}</h6>
+        </tr>
+        `;
+            };
 
         };
         error = [];
@@ -67,6 +129,81 @@ $(document).ready(function () {
     });
 
     function gaussGordon(A, b, outputDiv) {
+        const n = b.length;
+        let steps = [];
+
+        // Step 1: partial pivoting
+        for (let k = 0; k < n - 1; k++) {
+            // find the row with the largest absolute value in column k
+            // let i_max = k;
+            // for (let i = k + 1; i < n; i++) {
+            //     if (Math.abs(A[i][k]) > Math.abs(A[i_max][k])) {
+            //         i_max = i;
+            //     }
+            // }
+
+            // swap rows k and i_max
+            // if (i_max !== k) {
+            //     [A[k], A[i_max]] = [A[i_max], A[k]];
+            //     [b[k], b[i_max]] = [b[i_max], b[k]];
+            //     steps.push({ matrix: A.map(row => [...row]), constants: [...b] });
+            // }
+
+            // Step 2: elimination
+            for (let i = k + 1; i < n; i++) {
+                const factor = A[i][k] / A[k][k];
+                for (let j = k; j < n; j++) {
+                    A[i][j] -= factor * A[k][j];
+                }
+                b[i] -= factor * b[k];
+            }
+            steps.push({ matrix: A.map(row => [...row]), constants: [...b] });
+        }
+
+        // Step 3: back substitution
+        const x = new Array(n).fill(0);
+        x[n - 1] = b[n - 1] / A[n - 1][n - 1];
+        for (let i = n - 2; i >= 0; i--) {
+            let sum = 0;
+            for (let j = i + 1; j < n; j++) {
+                sum += A[i][j] * x[j];
+            }
+            x[i] = (b[i] - sum) / A[i][i];
+        }
+
+        // Output the steps to the specified div element
+        const outputElement = document.getElementById(outputDiv);
+        if (outputElement) {
+            // Create a table for each step and append it to the output div
+            for (let i = 0; i < steps.length; i++) {
+                const step = steps[i];
+                document.getElementById('table_body').innerHTML += `<h6>step : ${(i + 1)}<h6/>`;
+                const table = document.createElement("table");
+                table.classList.add("gauss-table"); // add a CSS class to the table
+                for (let j = 0; j < n; j++) {
+                    const row = document.createElement("tr");
+                    row.classList.add("gauss-row"); // add a CSS class to the table rows
+                    for (let k = 0; k < n; k++) {
+                        const cell = document.createElement("td");
+                        cell.classList.add("gauss-cell"); // add a CSS class to the table cells
+                        cell.textContent = step.matrix[j][k].toFixed(2);
+                        row.appendChild(cell);
+                    }
+                    const constantCell = document.createElement("td");
+                    constantCell.classList.add("gauss-constant"); // add a CSS class to the constant cells
+                    constantCell.textContent = step.constants[j].toFixed(2);
+                    row.appendChild(constantCell);
+                    table.appendChild(row);
+                }
+                outputElement.appendChild(table);
+            }
+        } else {
+            console.log(steps);
+        }
+
+        return { x, steps };
+    };
+    function gauss_with_partial_pivoting(A, b, outputDiv) {
         const n = b.length;
         let steps = [];
 
@@ -141,5 +278,93 @@ $(document).ready(function () {
 
         return { x, steps };
     };
+    function luDecomposition(A, b, outputDiv) {
+        const n = b.length;
+        let steps = [];
+
+        // Step 1: initialize L and U
+        const L = new Array(n).fill(0).map(() => new Array(n).fill(0));
+        const U = new Array(n).fill(0).map(() => new Array(n).fill(0));
+        for (let i = 0; i < n; i++) {
+            L[i][i] = 1;
+        }
+
+        // Step 2: perform LU decomposition
+        for (let k = 0; k < n; k++) {
+            // compute U[k][j] for j >= k
+            for (let j = k; j < n; j++) {
+                let sum = 0;
+                for (let s = 0; s < k; s++) {
+                    sum += L[k][s] * U[s][j];
+                }
+                U[k][j] = A[k][j] - sum;
+            }
+
+            // compute L[i][k] for i > k
+            for (let i = k + 1; i < n; i++) {
+                let sum = 0;
+                for (let s = 0; s < k; s++) {
+                    sum += L[i][s] * U[s][k];
+                }
+                L[i][k] = (A[i][k] - sum) / U[k][k];
+            }
+
+            steps.push({ L: L.map(row => [...row]), U: U.map(row => [...row]) });
+        }
+
+        // Step 3: solve Ly = b
+        const y = new Array(n).fill(0);
+        y[0] = b[0] / L[0][0];
+        for (let i = 1; i < n; i++) {
+            let sum = 0;
+            for (let j = 0; j < i; j++) {
+                sum += L[i][j] * y[j];
+            }
+            y[i] = (b[i] - sum) / L[i][i];
+        }
+
+        // Step 4: solve Ux = y
+        const x = new Array(n).fill(0);
+        x[n - 1] = y[n - 1] / U[n - 1][n - 1];
+        for (let i = n - 2; i >= 0; i--) {
+            let sum = 0;
+            for (let j = i + 1; j < n; j++) {
+                sum += U[i][j] * x[j];
+            }
+            x[i] = (y[i] - sum) / U[i][i];
+        }
+
+        // Output the steps to the specified div element
+        const outputElement = document.getElementById(outputDiv);
+        if (outputElement) {
+            // Create a table for each step and append it to the output div
+            for (let i = 0; i < steps.length; i++) {
+                const step = steps[i];
+                document.getElementById('table_body').innerHTML += `<h6>step : ${(i + 1)}<h6/>`;
+                const table = document.createElement("table");
+                table.classList.add("gauss-table"); // add a CSS class to the table
+                for (let j = 0; j < n; j++) {
+                    const row = document.createElement("tr");
+                    row.classList.add("gauss-row"); // add a CSS class to the table rows
+                    for (let k = 0; k < n; k++) {
+                        const cell = document.createElement("td");
+                        cell.classList.add("gauss-cell"); // add a CSS class to the table cells
+                        if (k <= j) {
+                            cell.textContent = step.L[j][k].toFixed(2);
+                        } else {
+                            cell.textContent = step.U[j][k].toFixed(2);
+                        }
+                        row.appendChild(cell);
+                    }
+                    table.appendChild(row);
+                }
+                outputElement.appendChild(table);
+            }
+        } else {
+            console.log(steps);
+        }
+
+        return { x, steps };
+    }
 
 });
