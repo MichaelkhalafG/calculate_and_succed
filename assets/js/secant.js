@@ -15,9 +15,9 @@ $(document).ready(function () {
         }
         ,
         {
-            name: "log",
-            symbol: "log(",
-            fourmla: "*Math.log10(",
+            name: "sqrt3",
+            symbol: "sqrt3(",
+            fourmla: "*math.cbrt(",
         }
         ,
         {
@@ -27,9 +27,27 @@ $(document).ready(function () {
         }
         ,
         {
+            name: "sqrt4",
+            symbol: "sqrt4(",
+            fourmla: "*math.nthRoot(",
+        }
+        ,
+        {
             name: "ln",
             symbol: "ln(",
             fourmla: "*Math.log2(",
+        }
+        ,
+        {
+            name: "log",
+            symbol: "log(",
+            fourmla: "*Math.log10(",
+        }
+        ,
+        {
+            name: "y",
+            symbol: "y",
+            fourmla: "*y",
         }
         ,
         {
@@ -45,15 +63,21 @@ $(document).ready(function () {
         }
         ,
         {
-            name: "y",
-            symbol: "y",
-            fourmla: "*y",
-        }
-        ,
-        {
             name: "tan",
             symbol: "tan(",
             fourmla: "*Math.tan(",
+        }
+        ,
+        {
+            name: "pi",
+            symbol: "pi",
+            fourmla: "Math.PI",
+        }
+        ,
+        {
+            name: "e",
+            symbol: "e(",
+            fourmla: "math.exp(",
         }
         ,
         {
@@ -447,6 +471,12 @@ $(document).ready(function () {
                 } else {
                     fx = fx.replaceAll("+*X", "+X").replaceAll("-*X", "-X").replaceAll("**X", "*X").replaceAll("/*X", "/X").replaceAll("(*X", "(X");
                 };
+                if (fx.startsWith("*Math")) {
+                    fx = fx.replace("*Math", "Math");
+                }
+                if (fx.startsWith("*math")) {
+                    fx = fx.replace("*math", "math");
+                }
                 if (xl < 0) {
                     fxl = eval(fx.replaceAll("X", "(" + xl + ")"));
                 } else {
@@ -484,7 +514,7 @@ $(document).ready(function () {
                     error.push(". There is no solution to this equation");
                     break;
                 }
-                if (row_num - 1 == N) {
+                if (row_num == N) {
                     root.innerHTML += `<h4 class="m-2">the root = ${fxu}</h4>`
                     break;
                 }

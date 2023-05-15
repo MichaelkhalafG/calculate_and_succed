@@ -5,142 +5,194 @@ $(document).ready(function () {
 			name: "pow",
 			symbol: "pow(",
 			fourmla: "^(",
-		},
+		}
+		,
 		{
 			name: "sqrt",
 			symbol: "sqrt(",
 			fourmla: "*Math.sqrt(",
-		},
+		}
+		,
 		{
-			name: "log",
-			symbol: "log(",
-			fourmla: "*Math.log10(",
-		},
+			name: "sqrt3",
+			symbol: "sqrt3(",
+			fourmla: "*math.cbrt(",
+		}
+		,
 		{
 			name: "X",
 			symbol: "X",
 			fourmla: "*X",
-		},
+		}
+		,
+		{
+			name: "sqrt4",
+			symbol: "sqrt4(",
+			fourmla: "*math.nthRoot(",
+		}
+		,
 		{
 			name: "ln",
 			symbol: "ln(",
 			fourmla: "*Math.log2(",
-		},
+		}
+		,
 		{
-			name: "cos",
-			symbol: "cos(",
-			fourmla: "*Math.cos(",
-		},
-		{
-			name: "sin",
-			symbol: "sin(",
-			fourmla: "*Math.sin(",
-		},
+			name: "log",
+			symbol: "log(",
+			fourmla: "*Math.log10(",
+		}
+		,
 		{
 			name: "y",
 			symbol: "y",
 			fourmla: "*y",
-		},
+		}
+		,
+		{
+			name: "cos",
+			symbol: "cos(",
+			fourmla: "*Math.cos(",
+		}
+		,
+		{
+			name: "sin",
+			symbol: "sin(",
+			fourmla: "*Math.sin(",
+		}
+		,
 		{
 			name: "tan",
 			symbol: "tan(",
 			fourmla: "*Math.tan(",
-		},
+		}
+		,
+		{
+			name: "pi",
+			symbol: "pi",
+			fourmla: "Math.PI",
+		}
+		,
+		{
+			name: "e",
+			symbol: "e(",
+			fourmla: "math.exp(",
+		}
+		,
 		{
 			name: "(",
 			symbol: "(",
 			fourmla: "*(",
-		},
+		}
+		,
 		{
 			name: ")",
 			symbol: ")",
 			fourmla: ")",
-		},
+		}
+		,
 		{
 			name: "+",
-			symbol: "+",
-			fourmla: "+",
-		},
+			symbol: " + ",
+			fourmla: " + ",
+		}
+		,
 		{
 			name: "1",
 			symbol: "1",
 			fourmla: 1,
-		},
+		}
+		,
 		{
 			name: "2",
 			symbol: "2",
 			fourmla: 2,
-		},
+		}
+		,
 		{
 			name: "3",
 			symbol: "3",
 			fourmla: 3,
-		},
+		}
+		,
 		{
 			name: "-",
-			symbol: "-",
-			fourmla: "-",
-		},
+			symbol: " - ",
+			fourmla: " - ",
+		}
+		,
 		{
 			name: "4",
 			symbol: "4",
 			fourmla: 4,
-		},
+		}
+		,
 		{
 			name: "5",
 			symbol: "5",
 			fourmla: 5,
-		},
+		}
+		,
 		{
 			name: "6",
 			symbol: "6",
 			fourmla: 6,
-		},
+		}
+		,
 		{
 			name: "*",
-			symbol: "*",
-			fourmla: "*",
-		},
+			symbol: " * ",
+			fourmla: " * ",
+		}
+		,
 		{
 			name: "7",
 			symbol: "7",
 			fourmla: 7,
-		},
+		}
+		,
 		{
 			name: "8",
 			symbol: "8",
 			fourmla: 8,
-		},
+		}
+		,
 		{
 			name: "9",
 			symbol: "9",
 			fourmla: 9,
-		},
+		}
+		,
 		{
 			name: "/",
-			symbol: "/",
-			fourmla: "/",
-		},
+			symbol: " / ",
+			fourmla: " / ",
+		}
+		,
 		{
 			name: "0",
 			symbol: "0",
 			fourmla: 0,
-		},
+		}
+		,
 		{
 			name: ".",
 			symbol: ".",
 			fourmla: ".",
-		},
+		}
+		,
 		{
 			name: "-(",
 			symbol: "-(",
 			fourmla: "-(",
-		},
+		}
+		,
 		{
 			name: "delete",
 			symbol: "delete",
 			fourmla: "delete",
-		},
+		}
+		,
 	];
 
 	let fx = "";
@@ -392,6 +444,9 @@ $(document).ready(function () {
 			if (fx.startsWith("*Math")) {
 				fx = fx.replace("*Math", "Math");
 			}
+			if (fx.startsWith("*math")) {
+				fx = fx.replace("*math", "math");
+			}
 			if (EorN) {
 				fixedPointIteration_E(x0, fx, EorNcon);
 			} else {
@@ -448,7 +503,7 @@ $(document).ready(function () {
 					Eb = Math.abs((xiPlusOne - xi) / xiPlusOne) * 100;
 					xi = xiPlusOne;
 					i++;
-				} while (i < N);
+				} while (i + 1 < N);
 				table_body.innerHTML += `<tr>
                                 <th scope="row">${i}</th>
                                 <td class="x0">${xi}</td>
@@ -457,13 +512,17 @@ $(document).ready(function () {
                             </tr>`;
 				root.innerHTML += `<h4 class="m-2">the root = ${xiPlusOne}</h4>`;
 			}
-		} else if (x0 == null || E == null) {
+		} else if (x0 == null || E == null || N == null) {
 			if (x0 == null) {
 				error.push(". Enter a valed value in x0 field");
 			}
-			if (E == null) {
-				error.push(". Enter a valed value in E field");
-			}
+			if (E == null || N == null) {
+				if (EorN) {
+					error.push(". Enter a valed value in E field");
+				} else {
+					error.push(". Enter a valed value in N field");
+				}
+			};
 			if (!fx.includes("X")) {
 				error.push(". The f(x) must have ' x ' on it !!");
 			}
@@ -482,100 +541,106 @@ $(document).ready(function () {
 		}
 	});
 	$("#solv_newton_low").click(function () {
+		console.log("iam in the #solv_newton_low");
 		table_body.innerHTML = ``;
 		root.innerHTML = ``;
-		if (fx.includes("X") && x0 != null && E != null) {
+		if (EorN) {
+			EorNcon = E;
+		} else {
+			EorNcon = N;
+		}
+		if (fx.includes("X") && x0 != null && EorNcon != null) {
 			if (fx.startsWith("*(")) {
-				fx = fx
-					.replace("*(", "(")
-					.replaceAll("+*X", "+X")
-					.replaceAll("-*X", "-X")
-					.replaceAll("**X", "*X")
-					.replaceAll("/*X", "/X")
-					.replaceAll("(*X", "(X");
+				fx = fx.replace("*(", "(").replaceAll("+*X", "+X").replaceAll("-*X", "-X").replaceAll("**X", "*X").replaceAll("/*X", "/X").replaceAll("(*X", "(X");
 			} else if (fx.startsWith("*X")) {
-				fx = fx
-					.replace("*X", "X")
-					.replaceAll("+*X", "+X")
-					.replaceAll("-*X", "-X")
-					.replaceAll("**X", "*X")
-					.replaceAll("/*X", "/X")
-					.replaceAll("(*X", "(X");
+				fx = fx.replace("*X", "X").replaceAll("+*X", "+X").replaceAll("-*X", "-X").replaceAll("**X", "*X").replaceAll("/*X", "/X").replaceAll("(*X", "(X");
 			} else {
-				fx = fx
-					.replaceAll("+*X", "+X")
-					.replaceAll("-*X", "-X")
-					.replaceAll("**X", "*X")
-					.replaceAll("/*X", "/X")
-					.replaceAll("(*X", "(X");
+				fx = fx.replaceAll("+*X", "+X").replaceAll("-*X", "-X").replaceAll("**X", "*X").replaceAll("/*X", "/X").replaceAll("(*X", "(X");
 			}
 			if (fx.startsWith("*Math")) {
 				fx = fx.replace("*Math", "Math");
 			}
+			if (fx.startsWith("*math")) {
+				fx = fx.replace("*math", "math");
+			}
 			let fpx = getDerivative(fx);
-			newtonRaphson(fx, fpx, x0, E);
-			function newtonRaphson(f, fp, x0, E) {
-				console.log(f);
-				console.log(fp);
-				console.log(x0);
-				console.log(E);
-				console.log("---------------------------------");
+			console.log(fx);
+			console.log(fpx);
+			console.log(x0);
+			console.log(E);
+			if (EorN) {
+				newtonRaphson_E(fx, fpx, x0, EorNcon);
+			} else {
+				newtonRaphson_N(fx, fpx, x0, EorNcon);
+			}
+			function newtonRaphson_E(f, df, x0, Ea) {
+				console.log("iam in the function");
 				let x = x0;
-				let xold;
-				let fxi = 0;
-				let fpxi = 0;
-				let Eb = 100;
 				let i = 0;
-				while (Eb > E && i < 100) {
-					fxi = f.replaceAll("X", x < 0 ? "(" + x + ")" : x);
-					fpxi = fp.replaceAll("X", x < 0 ? "(" + x + ")" : x);
-					fxi = eval(fxi);
-					console.log("fxi");
-					console.log(fxi);
-					fpxi = eval(fpxi);
-					console.log("fpxi");
-					console.log(fpxi);
+				let err = 100;
+				while (err > Ea) {
+					console.log("iam in the loop");
+					let nfx = f.replaceAll("X", x < 0 ? "(" + x + ")" : x);;
+					let dfx = df.replaceAll("X", x < 0 ? "(" + x + ")" : x);
+					nfx = eval(nfx);
+					dfx = eval(dfx);
+					if (dfx === 0) {
+						error.push(". division by zero.");
+					}
+					let deltaX = nfx / dfx;
+					x = x - deltaX;
+					err = Math.abs(deltaX);
 					table_body.innerHTML += `<tr>
                                 <th scope="row">${i}</th>
                                 <td class="x0">${x}</td>
-                                <td class="fx0">${fxi}</td>
-                                <td class="fpx0">${fpxi}</td>
-                                <td class="xl">${Eb}%</td>
+                                <td class="fx0">${nfx}</td>
+                                <td class="fpx0">${dfx}</td>
+                                <td class="xl">${err}%</td>
                             </tr>`;
-					xold = x;
-					x = x - fxi / fpxi;
-					console.log("x");
-					console.log(x);
-					console.log("xold");
-					console.log(xold);
-					Eb = Math.abs(((x - xold) / x) * 100);
-					console.log("eb");
-					console.log(Eb);
 					i++;
 				}
-
-				fxi = f.replaceAll("X", x < 0 ? "(" + x + ")" : x);
-				fpxi = fp.replaceAll("X", x < 0 ? "(" + x + ")" : x);
-				fxi = eval(fxi);
-				fpxi = eval(fpxi);
-
-				table_body.innerHTML += `<tr>
+				root.innerHTML += `<h4 class="m-2">the root = ${x}</h4>`;
+			};
+			function newtonRaphson_N(f, df, x0, N) {
+				console.log("iam in the function");
+				let x = x0;
+				let i = 0;
+				let err = 100;
+				while (i < N) {
+					console.log("iam in the loop");
+					let nfx = f.replaceAll("X", x < 0 ? "(" + x + ")" : x);;
+					let dfx = df.replaceAll("X", x < 0 ? "(" + x + ")" : x);
+					nfx = eval(nfx);
+					dfx = eval(dfx);
+					if (dfx === 0) {
+						error.push(". division by zero.");
+					}
+					let deltaX = nfx / dfx;
+					x = x - deltaX;
+					err = Math.abs(deltaX);
+					table_body.innerHTML += `<tr>
                                 <th scope="row">${i}</th>
                                 <td class="x0">${x}</td>
-                                <td class="fx0">${fxi}</td>
-                                <td class="fpx0">${fpxi}</td>
-                                <td class="xl">${Eb}%</td>
+                                <td class="fx0">${nfx}</td>
+                                <td class="fpx0">${dfx}</td>
+                                <td class="xl">${err}%</td>
                             </tr>`;
-
+					i++;
+				}
 				root.innerHTML += `<h4 class="m-2">the root = ${x}</h4>`;
-			}
-		} else if (x0 == null || E == null) {
+			};
+			console.log("iam out the function");
+		} else if (x0 == null || E == null || N == null) {
 			if (x0 == null) {
 				error.push(". Enter a valed value in x0 field");
 			}
-			if (E == null) {
-				error.push(". Enter a valed value in E field");
-			}
+			if (E == null || N == null) {
+				if (EorN) {
+					error.push(". Enter a valed value in E field");
+				} else {
+					error.push(". Enter a valed value in N field");
+				}
+			};
 			if (!fx.includes("X")) {
 				error.push(". The f(x) must have ' x ' on it !!");
 			}
@@ -595,6 +660,7 @@ $(document).ready(function () {
 	});
 	function getDerivative(fx) {
 		let derivatives = math.derivative(fx, "X").toString();
+		console.log("iam in the getDerivative function");
 		return derivatives;
 	}
 	// function decimalPlaces(number) {
