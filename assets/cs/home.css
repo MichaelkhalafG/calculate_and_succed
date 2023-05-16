@@ -132,3 +132,24 @@ nav {
     font-size: larger;
     text-align: center;
 }
+.overflowy {
+    height: 80vh;
+    overflow-y: scroll !important;
+    scrollbar-width: thin;
+    /* For Firefox */
+    scrollbar-color: #03178C;
+    
+    /* For Firefox */
+}
+
+.overflowy::-webkit-scrollbar {
+    width: 7px;
+    border-radius: 20px;
+    /* For Chrome, Safari, and Opera */
+}
+
+.overflowy::-webkit-scrollbar-thumb {
+    background-color: #03178C;
+    border-radius: 20px;
+    /* For Chrome, Safari, and Opera */
+}

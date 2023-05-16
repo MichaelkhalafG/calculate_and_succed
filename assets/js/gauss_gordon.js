@@ -309,29 +309,45 @@ $(document).ready(function () {
                 L[i][k] = (A[i][k] - sum) / U[k][k];
             }
 
-            steps.push({ L: L.map(row => [...row]), U: U.map(row => [...row]) });
-        }
+            steps.push({ A: A.map(row => [...row]), b: [...b], UX: [], LU: [] });
 
-        // Step 3: solve Ly = b
-        const y = new Array(n).fill(0);
-        y[0] = b[0] / L[0][0];
-        for (let i = 1; i < n; i++) {
-            let sum = 0;
-            for (let j = 0; j < i; j++) {
-                sum += L[i][j] * y[j];
+            // Step 3: solve Ly = b
+            const y = new Array(n).fill(0);
+            y[0] = b[0] / L[0][0];
+            for (let i = 1; i < n; i++) {
+                let sum = 0;
+                for (let j = 0; j < i; j++) {
+                    sum += L[i][j] * y[j];
+                }
+                y[i] = (b[i] - sum) / L[i][i];
             }
-            y[i] = (b[i] - sum) / L[i][i];
-        }
 
-        // Step 4: solve Ux = y
-        const x = new Array(n).fill(0);
-        x[n - 1] = y[n - 1] / U[n - 1][n - 1];
-        for (let i = n - 2; i >= 0; i--) {
-            let sum = 0;
-            for (let j = i + 1; j < n; j++) {
-                sum += U[i][j] * x[j];
+            // Step 4: solve Ux = y
+            let x = new Array(n).fill(0);
+            x[n - 1] = y[n - 1] / U[n - 1][n - 1];
+            for (let i = n - 2; i >= 0; i--) {
+                let sum = 0;
+                for (let j = i + 1; j < n; j++) {
+                    sum += U[i][j] * x[j];
+                }
+                x[i] = (y[i] - sum) / U[i][i];
             }
-            x[i] = (y[i] - sum) / U[i][i];
+
+            // Add matrix UX to the current step
+            for (let i = 0; i < n; i++) {
+                let sum = 0;
+                for (let j = 0; j < n; j++) {
+                    sum += U[i][j] * (j >= i ? x[j] : 0);
+                }
+                steps[steps.length - 1].UX.push(sum.toFixed(2));
+            }
+
+            // Add matrix LU to the current step
+            for (let i = 0; i < n; i++) {
+                for (let j = 0; j < n; j++) {
+                    steps[steps.length - 1].LU.push((j <= i ? L[i][j] : U[i][j]).toFixed(2));
+                }
+            }
         }
 
         // Output the steps to the specified div element
@@ -339,32 +355,98 @@ $(document).ready(function () {
         if (outputElement) {
             // Create a table for each step and append it to the output div
             for (let i = 0; i < steps.length; i++) {
-                const step = steps[i];
-                document.getElementById('table_body').innerHTML += `<h6>step : ${(i + 1)}<h6/>`;
-                const table = document.createElement("table");
+                let step = steps[i];
+                let table = document.createElement("table");
                 table.classList.add("gauss-table"); // add a CSS class to the table
+
+                // Add matrix A to the current step
+                let matrixARow = document.createElement("tr");
+                matrixARow.classList.add("gauss-row");
+                let matrixACell = document.createElement("td");
+                matrixACell.classList.add("gauss-cell");
+                matrixACell.setAttribute("colspan", n);
+                matrixACell.textContent = "Matrix A";
+                matrixARow.appendChild(matrixACell);
+                table.appendChild(matrixARow);
                 for (let j = 0; j < n; j++) {
-                    const row = document.createElement("tr");
-                    row.classList.add("gauss-row"); // add a CSS class to the table rows
+                    let row = document.createElement("tr");
+                    row.classList.add("gauss-row");
                     for (let k = 0; k < n; k++) {
-                        const cell = document.createElement("td");
-                        cell.classList.add("gauss-cell"); // add a CSS class to the table cells
-                        if (k <= j) {
-                            cell.textContent = step.L[j][k].toFixed(2);
-                        } else {
-                            cell.textContent = step.U[j][k].toFixed(2);
-                        }
+                        let cell = document.createElement("td");
+                        cell.classList.add("gauss-cell");
+                        cell.textContent = step.A[j][k].toFixed(2);
                         row.appendChild(cell);
                     }
                     table.appendChild(row);
                 }
+                table.appendChild(document.createElement("br"));
+
+                // Add vector b to the current step
+                let vectorBRow = document.createElement("tr");
+                vectorBRow.classList.add("gauss-row");
+                let vectorBCell = document.createElement("td");
+                vectorBCell.classList.add("gauss-cell");
+                vectorBCell.setAttribute("colspan", n);
+                vectorBCell.textContent = "Vector b";
+                vectorBRow.appendChild(vectorBCell);
+                table.appendChild(vectorBRow);
+                let bRow = document.createElement("tr");
+                bRow.classList.add("gauss-row");
+                for (let j = 0; j < n; j++) {
+                    let cell = document.createElement("td");
+                    cell.classList.add("gauss-cell");
+                    cell.textContent = step.b[j].toFixed(2);
+                    bRow.appendChild(cell);
+                }
+                table.appendChild(bRow);
+                table.appendChild(document.createElement("br"));
+
+                // Add matrix UX to the current step
+                let matrixUXRow = document.createElement("tr");
+                matrixUXRow.classList.add("gauss-row");
+                let matrixUXCell = document.createElement("td");
+                matrixUXCell.classList.add("gauss-cell");
+                matrixUXCell.setAttribute("colspan", n);
+                matrixUXCell.textContent = "Matrix UX (U * x)";
+                matrixUXRow.appendChild(matrixUXCell);
+                table.appendChild(matrixUXRow);
+                let UXRow = document.createElement("tr");
+                UXRow.classList.add("gauss-row");
+                for (let j = 0; j < n; j++) {
+                    let cell = document.createElement("td");
+                    cell.classList.add("gauss-cell");
+                    cell.textContent = step.UX[j];
+                    UXRow.appendChild(cell);
+                }
+                table.appendChild(UXRow);
+                table.appendChild(document.createElement("br"));
+                // Add matrix LU to the current step
+                let matrixLURow = document.createElement("tr");
+                matrixLURow.classList.add("gauss-row");
+                let matrixLUCell = document.createElement("td");
+                matrixLUCell.classList.add("gauss-cell");
+                matrixLUCell.setAttribute("colspan", n);
+                matrixLUCell.textContent = "Matrix LU";
+                matrixLURow.appendChild(matrixLUCell);
+                table.appendChild(matrixLURow);
+                for (let j = 0; j < n; j++) {
+                    let row = document.createElement("tr");
+                    row.classList.add("gauss-row");
+                    for (let k = 0; k < n; k++) {
+                        let cell = document.createElement("td");
+                        cell.classList.add("gauss-cell");
+                        cell.textContent = step.LU[j * n + k];
+                        row.appendChild(cell);
+                    }
+                    table.appendChild(row);
+                }
+                table.appendChild(document.createElement("br"));
+
                 outputElement.appendChild(table);
             }
-        } else {
-            console.log(steps);
         }
 
-        return { x, steps };
+        return x;
     }
 
 });
