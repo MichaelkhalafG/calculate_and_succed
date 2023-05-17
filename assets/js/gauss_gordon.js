@@ -106,7 +106,7 @@ $(document).ready(function () {
         </tr>
         `;
             } else {
-                let { x, steps } = luDecomposition(matrix, a, 'table_body');
+                let x = luDecomposition(matrix, a, 'table_body');
                 document.querySelector('.table_head').innerHTML = `
         <tr>
             <h6 class="px-5 py-2">Solution:</h6>
@@ -134,22 +134,7 @@ $(document).ready(function () {
 
         // Step 1: partial pivoting
         for (let k = 0; k < n - 1; k++) {
-            // find the row with the largest absolute value in column k
-            // let i_max = k;
-            // for (let i = k + 1; i < n; i++) {
-            //     if (Math.abs(A[i][k]) > Math.abs(A[i_max][k])) {
-            //         i_max = i;
-            //     }
-            // }
-
-            // swap rows k and i_max
-            // if (i_max !== k) {
-            //     [A[k], A[i_max]] = [A[i_max], A[k]];
-            //     [b[k], b[i_max]] = [b[i_max], b[k]];
-            //     steps.push({ matrix: A.map(row => [...row]), constants: [...b] });
-            // }
-
-            // Step 2: elimination
+            // Step 1: elimination
             for (let i = k + 1; i < n; i++) {
                 const factor = A[i][k] / A[k][k];
                 for (let j = k; j < n; j++) {
@@ -160,7 +145,7 @@ $(document).ready(function () {
             steps.push({ matrix: A.map(row => [...row]), constants: [...b] });
         }
 
-        // Step 3: back substitution
+        // Step 2: back substitution
         const x = new Array(n).fill(0);
         x[n - 1] = b[n - 1] / A[n - 1][n - 1];
         for (let i = n - 2; i >= 0; i--) {
@@ -426,7 +411,7 @@ $(document).ready(function () {
                 let matrixLUCell = document.createElement("td");
                 matrixLUCell.classList.add("gauss-cell");
                 matrixLUCell.setAttribute("colspan", n);
-                matrixLUCell.textContent = "Matrix LU";
+                matrixLUCell.textContent = "Matrix LU (L * U)";
                 matrixLURow.appendChild(matrixLUCell);
                 table.appendChild(matrixLURow);
                 for (let j = 0; j < n; j++) {
@@ -440,12 +425,11 @@ $(document).ready(function () {
                     }
                     table.appendChild(row);
                 }
-                table.appendChild(document.createElement("br"));
-
                 outputElement.appendChild(table);
             }
         }
 
+        // Return the solutions for x1, x2, and x3
         return x;
     }
 
